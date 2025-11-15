@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css" type="text/css" />
+    <title>All Users - SG University</title>
+    <style>
+        .users-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .users-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            animation: fadeInUp 0.6s ease-out 0.3s both;
+        }
+
+        .users-card h2 {
+            color: #667eea;
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .users-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .users-table thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .users-table th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .users-table th:first-child {
+            border-radius: 8px 0 0 0;
+        }
+
+        .users-table th:last-child {
+            border-radius: 0 8px 0 0;
+        }
+
+        .users-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #e0e0e0;
+            color: #333;
+        }
+
+        .users-table tbody tr:hover {
+            background-color: #f5f5f5;
+            transition: background-color 0.2s ease;
+        }
+
+        .users-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .no-users {
+            text-align: center;
+            padding: 2rem;
+            color: #888;
+            font-size: 1.1rem;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #667eea;
+            font-size: 1.1rem;
+        }
+
+        .user-count {
+            text-align: center;
+            margin-bottom: 1rem;
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .user-count strong {
+            color: #667eea;
+            font-size: 1.2rem;
+        }
+
+        .actions-cell {
+            text-align: center;
+        }
+
+        .email-cell {
+            color: #667eea;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .users-card {
+                padding: 1rem;
+                overflow-x: auto;
+            }
+
+            .users-table {
+                font-size: 0.85rem;
+            }
+
+            .users-table th,
+            .users-table td {
+                padding: 0.75rem 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="users-container">
+        <div class="header">
+            <div class="logo">
+                <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="50" height="50" rx="8" fill="#FF6B6B"/>
+                    <path d="M15 35L25 15L35 35M18.5 28H31.5" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <h1>SG University</h1>
+            <p class="subtitle">Student Learning Portal</p>
+        </div>
+
+        <div class="users-card">
+            <h2>📚 Registered Students</h2>
+            <div class="user-count" id="userCount"></div>
+            <div id="usersContent">
+                <div class="loading">Loading users...</div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 1.5rem;">
+            <a href="/" class="back-btn">← Back to Home</a>
+        </div>
+
+        <footer>
+            <p>&copy; 2024 SG University. Empowering minds, one student at a time.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Fetch and display users
+        async function loadUsers() {
+            try {
+                const response = await fetch('/getUsers');
+                const users = await response.json();
+                
+                const contentDiv = document.getElementById('usersContent');
+                const countDiv = document.getElementById('userCount');
+
+                if (users.length === 0) {
+                    contentDiv.innerHTML = '<div class="no-users">No users registered yet. Be the first to join! 🎓</div>';
+                    countDiv.innerHTML = '';
+                } else {
+                    countDiv.innerHTML = `Total Students: <strong>${users.length}</strong>`;
+                    
+                    let tableHTML = `
+                        <table class="users-table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Full Name</th>
+                                    <th>Email Address</th>
+                                    <th>Joined Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+
+                    users.forEach((user, index) => {
+                        const joinDate = user._id ? new Date(parseInt(user._id.toString().substring(0, 8), 16) * 1000).toLocaleDateString() : 'N/A';
+                        
+                        tableHTML += `
+                            <tr>
+                                <td>${index + 1}</td>
+                                <td>${user.username || 'N/A'}</td>
+                                <td class="email-cell">${user.email || 'N/A'}</td>
+                                <td>${joinDate}</td>
+                            </tr>
+                        `;
+                    });
+
+                    tableHTML += `
+                            </tbody>
+                        </table>
+                    `;
+
+                    contentDiv.innerHTML = tableHTML;
+                }
+            } catch (error) {
+                console.error('Error loading users:', error);
+                document.getElementById('usersContent').innerHTML = 
+                    '<div class="no-users" style="color: #f5576c;">⚠️ Error loading users. Please try again later.</div>';
+            }
+        }
+
+        // Load users when page loads
+        loadUsers();
+    </script>
+</body>
+</html>
