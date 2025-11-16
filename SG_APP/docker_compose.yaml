@@ -8,8 +8,11 @@ services:
     ports:
       - "27017:27017"
     environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_USERNAME: admin 
       MONGO_INITDB_ROOT_PASSWORD: surya4
+    
+    volumes:
+      - /d/Docker/Docker_Practice/SG_APP/mongo_data:/data/db
   
   # Mongo-Express Service
   mongo-express:
@@ -18,8 +21,8 @@ services:
     ports:
       - "8081:8081"
     environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
-      ME_CONFIG_MONGODB_ADMINPASSWORD: surya4
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin 
+      ME_CONFIG_MONGODB_ADMINPASSWORD: surya4 
       ME_CONFIG_MONGODB_URL: mongodb://admin:surya4@mongodb:27017/
 
   # Node.js Application Service 

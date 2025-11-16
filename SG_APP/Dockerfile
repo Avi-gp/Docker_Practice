@@ -20,5 +20,5 @@ EXPOSE 5050
 CMD ["node", "server.js"]
 
 #Envionment Variables
-ENV MONGODB_USERNAME=admin /
+ENV MONGODB_USERNAME=admin \
     MONGODB_PASSWORD=surya4

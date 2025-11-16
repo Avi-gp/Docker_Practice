@@ -4,29 +4,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./style.css" type="text/css" />
-    <title>Home Page</title>
+    <title>Home Page - SG University</title>
 </head>
 <body>
-    <h1>Hi student, Welcome to XYZ University!</h1>
-    <p>You can sign up to the platform to access all important notes & lectures.</p>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="50" height="50" rx="8" fill="#FF6B6B"/>
+                    <path d="M15 35L25 15L35 35M18.5 28H31.5" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <h1>SG University</h1>
+            <p class="subtitle">Student Learning Portal</p>
+        </div>
 
-    <form action="/addUser" method="POST" target="_blank" id="signupForm">
-        <div class="field">
-            <label for="email">Email: </label>
-            <input type="text" placeholder="jane@email.com" name="email">
+        <div class="welcome-card">
+            <h2>Welcome, Future Scholar! 🎓</h2>
+            <p>You can sign up to the platform to access all important notes & lectures.</p>
         </div>
-        <div class="field">    
-        <label for="username">Username: </label>
-            <input type="text" placeholder="Jane Doe" name="username">
+
+        <div class="form-card">
+            <h3>Create Your Account</h3>
+            <form action="/addUser" method="POST" id="signupForm">
+                <div class="field">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="jane@email.com" name="email" required>
+                </div>
+                
+                <div class="field">    
+                    <label for="username">Full Name</label>
+                    <input type="text" id="username" placeholder="Jane Doe" name="username" required>
+                </div>
+                
+                <div class="field">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Create a strong password" name="password" required>
+                    <span class="hint">Minimum 8 characters recommended</span>
+                </div>
+                
+                <button type="submit" id="formBtn">
+                    <span>Create Account</span>
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </form>
+            
+            <p class="footer-text">Already have an account? <a href="#">Sign in here</a></p>
         </div>
-        <div class="field">
-            <label for="password">Password: </label>
-            <input type="password" placeholder="password" name="password">
-        </div>
-        
-        <button id="formBtn">Create Account</button>
-        
-    </form>
+
+        <footer>
+            <p>&copy; 2024 SG University. Empowering minds, one student at a time.</p>
+        </footer>
+    </div>
 </body>
-
 </html>
